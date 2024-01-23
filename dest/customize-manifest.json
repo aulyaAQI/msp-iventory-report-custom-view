@@ -1,0 +1,12 @@
+{
+  "app": "2195",
+  "scope": "ALL",
+  "desktop": {
+    "js": ["dest/desktop/js/kintone-custom-view-vue.js"],
+    "css": ["dest/desktop/css/app-style.css"]
+  },
+  "mobile": {
+    "js": [],
+    "css": []
+  }
+}
