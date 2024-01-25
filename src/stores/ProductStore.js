@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia';
 import {KintoneRestAPIClient} from '@kintone/rest-api-client';
+import {useFilterStore} from './FilterStore';
 
 export const useProductStore = defineStore({
   id: 'product',
@@ -13,16 +14,20 @@ export const useProductStore = defineStore({
           auth: {apiToken: 'y60ItXXtrvmzw1jbXMoakjb33EEhtwDyuEwczwau'},
         });
 
-        const records = await databaseProductClient.record.getAllRecords({app: 1905});
-        console.log('Fetched products:', records);
+        const records = await databaseProductClient.record.getAllRecords({
+          app: 1905,
+        });
 
         this.products = records;
-
-        console.log(this.products);
       } catch (error) {
         console.error('Error fetching products:', error);
         // Handle error as needed
       }
+    },
+  },
+  getters: {
+    getProducts() {
+      return this.products;
     },
   },
 });
