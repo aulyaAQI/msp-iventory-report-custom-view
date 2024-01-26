@@ -2,19 +2,31 @@
 import {useProductStore} from '../stores/ProductStore';
 import {useReceivingStore} from '../stores/ReceivingStore';
 import {useReportStore} from '../stores/ReportStore';
+import {useFilterStore} from '../stores/FilterStore';
 import {storeToRefs} from 'pinia';
 
 const productStore = useProductStore();
 const receivingStore = useReceivingStore();
 const reportStore = useReportStore();
+const filterStore = useFilterStore();
 
 const {products} = storeToRefs(productStore);
 const {records: receivingData} = storeToRefs(receivingStore);
 const {reportList: reportData} = storeToRefs(reportStore);
 
-console.log(products.value, 'products ref');
-console.log(receivingData.value, 'receivingData');
-console.log(reportData.value, 'reportList');
+filterStore.$subscribe(async (mutation, state) => {
+  console.log(mutation, 'mutation filterStore');
+  console.log(state, 'state filterStore');
+  await receivingStore.fetchReceiving();
+
+  const {records: receivingData} = storeToRefs(receivingStore);
+  console.log({receivingData});
+});
+
+receivingStore.$subscribe((mutation, state) => {
+  console.log(mutation, 'mutation receivingStore');
+  console.log(state, 'state receivingStore');
+});
 </script>
 
 <template>

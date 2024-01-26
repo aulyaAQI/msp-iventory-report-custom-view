@@ -4,6 +4,7 @@ import {useProductStore} from '../stores/ProductStore';
 import {useReceivingStore} from '../stores/ReceivingStore';
 import {useReportStore} from '../stores/ReportStore';
 import {storeToRefs} from 'pinia';
+import {onMounted} from 'vue';
 
 const filterStore = useFilterStore();
 const productStore = useProductStore();
@@ -11,6 +12,7 @@ const receivingStore = useReceivingStore();
 const reportStore = useReportStore();
 
 const {month: selectedMonth, year: selectedYear} = storeToRefs(filterStore);
+productStore.fetchProducts();
 
 console.log(selectedMonth.value, 'selectedMonth');
 console.log(selectedYear.value, 'selectedYear');

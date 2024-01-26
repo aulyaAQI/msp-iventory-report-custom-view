@@ -20,7 +20,7 @@ productStore.fetchProducts();
 
 <template>
   <div class="p-3 bg-light">
-    <FilterTable></FilterTable>
-    <DataTable></DataTable>
+    <FilterTable />
+    <DataTable />
   </div>
 </template>

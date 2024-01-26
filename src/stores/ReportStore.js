@@ -9,7 +9,7 @@ export const useReportStore = defineStore({
     reportList: [],
   }),
   actions: {
-    generateReport() {
+    async generateReport(month, year) {
       const productStore = useProductStore();
       const receivingStore = useReceivingStore();
 

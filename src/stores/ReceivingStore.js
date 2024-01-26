@@ -14,6 +14,7 @@ export const useReceivingStore = defineStore({
   id: 'receiving',
   state: () => ({
     records: [],
+    isLoading: true,
   }),
   actions: {
     async fetchReceiving() {
@@ -47,12 +48,13 @@ export const useReceivingStore = defineStore({
 
       try {
         const records = await receivingAppClient.record.getAllRecords({
-          app: 1913,
+          app: 1940,
           condition,
         });
         console.log('Fetched receiving:', records);
 
         this.records = records;
+        this.isLoading = false;
 
         console.log(this.records, 'receiving');
       } catch (error) {

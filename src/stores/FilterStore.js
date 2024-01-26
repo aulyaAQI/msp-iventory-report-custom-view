@@ -4,8 +4,8 @@ import {DateTime} from 'luxon';
 export const useFilterStore = defineStore({
   id: 'filter',
   state: () => ({
-    month: null,
-    year: null,
+    month: 1,
+    year: 2000,
   }),
   actions: {
     setFilterPeriod(month, year, event) {

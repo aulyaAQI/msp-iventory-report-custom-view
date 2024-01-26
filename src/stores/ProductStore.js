@@ -6,6 +6,7 @@ export const useProductStore = defineStore({
   id: 'product',
   state: () => ({
     products: [],
+    isLoading: true,
   }),
   actions: {
     async fetchProducts() {
@@ -19,6 +20,7 @@ export const useProductStore = defineStore({
         });
 
         this.products = records;
+        this.isLoading = false;
       } catch (error) {
         console.error('Error fetching products:', error);
         // Handle error as needed
