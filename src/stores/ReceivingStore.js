@@ -5,8 +5,9 @@ import {DateTime} from 'luxon';
 import {KintoneRestAPIClient} from '@kintone/rest-api-client';
 
 const receivingAppClient = new KintoneRestAPIClient({
+  baseUrl: 'https://aqi-demo.cybozu.com',
   auth: {
-    apiToken: 'vuRejYyE1NH8ejX0hl7te182wxNsxS1OBP4qI4Lb',
+    apiToken: 'U45J2jhIxygLj0pu6DtiXyGzoR1BS4KnlPZmh5OI',
   },
 });
 
@@ -43,7 +44,7 @@ export const useReceivingStore = defineStore({
         .endOf('month')
         .toISODate();
 
-      const condition = `Receive_Date >= "${startDate}" and Receive_Date <= "${endDate}" and Part_No in (${products})`;
+      const condition = `Receive_Date >= "${startDate}" and Receive_Date <= "${endDate}" and Part_No_0 in (${products})`;
       console.log({condition});
 
       try {

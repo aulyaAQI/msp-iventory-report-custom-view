@@ -12,12 +12,15 @@ export const useProductStore = defineStore({
     async fetchProducts() {
       try {
         const databaseProductClient = new KintoneRestAPIClient({
+          baseUrl: 'https://aqi-demo.cybozu.com',
           auth: {apiToken: 'y60ItXXtrvmzw1jbXMoakjb33EEhtwDyuEwczwau'},
         });
 
         const records = await databaseProductClient.record.getAllRecords({
           app: 1905,
         });
+
+        console.log({records});
 
         this.products = records;
         this.isLoading = false;

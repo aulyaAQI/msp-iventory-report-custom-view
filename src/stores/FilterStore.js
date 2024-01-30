@@ -1,4 +1,5 @@
 import {defineStore} from 'pinia';
+import {useProductStore} from './ProductStore';
 import {DateTime} from 'luxon';
 
 export const useFilterStore = defineStore({

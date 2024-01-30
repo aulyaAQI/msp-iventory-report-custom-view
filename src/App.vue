@@ -15,7 +15,6 @@ filterStore.setFilterPeriod(currentMonth, currentYear);
 
 filterStore.month = currentMonth;
 filterStore.year = currentYear;
-productStore.fetchProducts();
 </script>
 
 <template>

@@ -33,7 +33,7 @@ console.log(selectedYear.value, 'selectedYear');
           </div>
           <div class="row">
             <div class="col-xs-12 col-sm-6">
-              <select class="form-select" v-model="selectedMonth">
+              <select v-model="selectedMonth" class="form-select">
                 <option value="1">January</option>
                 <option value="2">February</option>
                 <option value="3">March</option>
@@ -49,7 +49,7 @@ console.log(selectedYear.value, 'selectedYear');
               </select>
             </div>
             <div class="col-xs-12 col-sm-6">
-              <input class="form-control" type="number" min="2000" max="3000" v-model="selectedYear" />
+              <input v-model="selectedYear" class="form-control" type="number" min="2000" max="3000" />
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ export const useReportStore = defineStore({
     reportList: [],
   }),
   actions: {
-    async generateReport(month, year) {
+    generateReport(month, year) {
       const productStore = useProductStore();
       const receivingStore = useReceivingStore();
 
@@ -18,6 +18,23 @@ export const useReportStore = defineStore({
 
       console.log(products.value, 'productStore');
       console.log(records.value, 'receivingStore');
+
+      const reportList = products.value.map((product) => {
+        const receivingRecords = records.value.filter((record) => {
+          return record.Part_No.value === product.Part_No.value;
+        });
+
+        const totalQuantity = receivingRecords.reduce((acc, record) => {
+          return acc + record.Quantity.value;
+        }, 0);
+
+        return {
+          ...product,
+          totalQuantity,
+        };
+      });
+
+      this.reportList = reportList;
     },
   },
   getters: {},

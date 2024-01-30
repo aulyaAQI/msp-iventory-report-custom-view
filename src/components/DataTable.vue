@@ -19,14 +19,16 @@ filterStore.$subscribe(async (mutation, state) => {
   console.log(state, 'state filterStore');
   await receivingStore.fetchReceiving();
 
+  reportStore.generateReport();
+
   const {records: receivingData} = storeToRefs(receivingStore);
   console.log({receivingData});
 });
 
-receivingStore.$subscribe((mutation, state) => {
-  console.log(mutation, 'mutation receivingStore');
-  console.log(state, 'state receivingStore');
-});
+// receivingStore.$subscribe((mutation, state) => {
+//   console.log(mutation, 'mutation receivingStore');
+//   console.log(state, 'state receivingStore');
+// });
 </script>
 
 <template>
@@ -42,7 +44,9 @@ receivingStore.$subscribe((mutation, state) => {
             <th>Part Name</th>
             <th>Beginning Stock</th>
             <th>In/Out</th>
-            <th v-for="(n, idx) in 31" :key="n">{{ n }}</th>
+            <th v-for="(n, idx) in 31" :key="n">
+              {{ n }}
+            </th>
             <th>Total In</th>
             <th>Total Out</th>
             <th>Ending Stock</th>
@@ -51,18 +55,26 @@ receivingStore.$subscribe((mutation, state) => {
         <tbody>
           <template v-for="item in products" :key="item.$id.value">
             <tr class="table-hover">
-              <td rowspan="2">{{ item.Part_No.value }}</td>
-              <td rowspan="2">{{ item.Part_Name.value }}</td>
+              <td rowspan="2">
+                {{ item.Part_No.value }}
+              </td>
+              <td rowspan="2">
+                {{ item.Part_Name.value }}
+              </td>
               <td rowspan="2">0</td>
               <td>In</td>
-              <td v-for="(n, idx) in 31" :key="n">{{ '-' }}</td>
+              <td v-for="(n, idx) in 31" :key="n">
+                {{ '-' }}
+              </td>
               <td rowspan="2">0</td>
               <td rowspan="2">0</td>
               <td rowspan="2">0</td>
             </tr>
             <tr class="table-hover">
               <td>Out</td>
-              <td v-for="(n, idx) in 31" :key="n">{{ '-' }}</td>
+              <td v-for="(n, idx) in 31" :key="n">
+                {{ '-' }}
+              </td>
             </tr>
           </template>
         </tbody>
