@@ -4,6 +4,7 @@ import FilterTable from './components/FilterTable.vue';
 import {useFilterStore} from './stores/FilterStore';
 import {useProductStore} from './stores/ProductStore';
 import {DateTime} from 'luxon';
+import {onMounted} from 'vue';
 
 const productStore = useProductStore();
 const filterStore = useFilterStore();
@@ -11,10 +12,11 @@ const filterStore = useFilterStore();
 const currentMonth = DateTime.now().month;
 const currentYear = DateTime.now().year;
 
-filterStore.setFilterPeriod(currentMonth, currentYear);
+onMounted(async () => {
+  await productStore.fetchProducts();
+  filterStore.setFilterPeriod(currentMonth, currentYear);
+});
 
-filterStore.month = currentMonth;
-filterStore.year = currentYear;
 </script>
 
 <template>

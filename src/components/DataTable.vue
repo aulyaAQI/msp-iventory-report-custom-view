@@ -3,48 +3,64 @@ import {useProductStore} from '../stores/ProductStore';
 import {useReceivingStore} from '../stores/ReceivingStore';
 import {useReportStore} from '../stores/ReportStore';
 import {useFilterStore} from '../stores/FilterStore';
+import {useProductionStore} from '../stores/ProductionStore';
 import {storeToRefs} from 'pinia';
 
 const productStore = useProductStore();
 const receivingStore = useReceivingStore();
 const reportStore = useReportStore();
 const filterStore = useFilterStore();
+const productionStore = useProductionStore();
 
 const {products} = storeToRefs(productStore);
 const {records: receivingData} = storeToRefs(receivingStore);
 const {reportList: reportData} = storeToRefs(reportStore);
+const {records: productionData} = storeToRefs(productionStore);
 
 filterStore.$subscribe(async (mutation, state) => {
   console.log(mutation, 'mutation filterStore');
   console.log(state, 'state filterStore');
   await receivingStore.fetchReceiving();
+  await productionStore.fetchProduction();
 
   reportStore.generateReport();
 
   const {records: receivingData} = storeToRefs(receivingStore);
-  console.log({receivingData});
+  const {records: productionData} = storeToRefs(productionStore);
+  console.log({receivingData, productionData});
 });
 
-// receivingStore.$subscribe((mutation, state) => {
-//   console.log(mutation, 'mutation receivingStore');
-//   console.log(state, 'state receivingStore');
-// });
+function obtainIn(data, number) {
+  console.log({data, number});
+
+  const in = 
+
+  return data;
+}
 </script>
 
 <template>
   <div class="border rounded p-3 bg-white table-responsive">
-    <div v-if="products.length">
+    <div v-if="reportData.length">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th colspan="38" class="text-center">Month</th>
+            <th
+              colspan="38"
+              class="text-center"
+            >
+              Month
+            </th>
           </tr>
           <tr>
             <th>Part No</th>
             <th>Part Name</th>
             <th>Beginning Stock</th>
             <th>In/Out</th>
-            <th v-for="(n, idx) in 31" :key="n">
+            <th
+              v-for="(n, idx) in 31"
+              :key="n"
+            >
               {{ n }}
             </th>
             <th>Total In</th>
@@ -53,26 +69,43 @@ filterStore.$subscribe(async (mutation, state) => {
           </tr>
         </thead>
         <tbody>
-          <template v-for="item in products" :key="item.$id.value">
+          <template
+            v-for="data in reportData"
+            :key="data.partNo"
+          >
             <tr class="table-hover">
               <td rowspan="2">
-                {{ item.Part_No.value }}
+                {{ data.partNo }}
               </td>
               <td rowspan="2">
-                {{ item.Part_Name.value }}
+                {{ data.partName }}
               </td>
-              <td rowspan="2">0</td>
+              <td rowspan="2">
+                0
+              </td>
               <td>In</td>
-              <td v-for="(n, idx) in 31" :key="n">
-                {{ '-' }}
+              <td
+                v-for="(n, idx) in 31"
+                :key="n"
+              >
+                {{ obtainIn(data, n) }}
               </td>
-              <td rowspan="2">0</td>
-              <td rowspan="2">0</td>
-              <td rowspan="2">0</td>
+              <td rowspan="2">
+                0
+              </td>
+              <td rowspan="2">
+                0
+              </td>
+              <td rowspan="2">
+                0
+              </td>
             </tr>
             <tr class="table-hover">
               <td>Out</td>
-              <td v-for="(n, idx) in 31" :key="n">
+              <td
+                v-for="(n, idx) in 31"
+                :key="n"
+              >
                 {{ '-' }}
               </td>
             </tr>
@@ -80,6 +113,8 @@ filterStore.$subscribe(async (mutation, state) => {
         </tbody>
       </table>
     </div>
-    <div v-else>Loading...</div>
+    <div v-else>
+      Loading...
+    </div>
   </div>
 </template>
