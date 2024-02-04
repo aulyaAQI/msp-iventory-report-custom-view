@@ -22,31 +22,21 @@ export const useReportStore = defineStore({
       const {records: productionData} = storeToRefs(productionStore);
 
       console.log(products.value, 'productStore');
-      console.log(receivingData.value, 'receivingStore');
 
       const groupedReceiving = this.groupReceivingByPartNoAndSumQtyReceived(receivingData.value) || [];
       const groupedProduction = this.groupProductionByPartNoAndSumQtyOk(productionData.value) || [];
-      console.log({groupedReceiving, groupedProduction});
       const groupedIn = this.groupIn(groupedProduction, groupedReceiving);
-      console.log({groupedIn});
       const inReference = this.generateInReference(groupedIn);
-      console.log({inReference});
 
       const reportList = products.value.map((product) => {
-        // const receivingReferences = groupedReceiving.filter((group) => group.partNo === product.Part_No.value);
-        // const productionReferences = groupedProduction.filter((group) => group.partNo === product.Part_No.value);
         const inQuantity = inReference.find((group) => group.partNo === product.Part_No.value);
-        console.log({inQuantity});
 
-        // console.log({receivingReferences, productionReferences});
-
-        // const qtyReceived = receivingReference ? receivingReference.qtyReceived : 0;
-        // const qtyOk = productionReference ? productionReference.qtyOk : 0;
-
+        if (inQuantity) console.log(inQuantity.in, 'inQuantity');
         return {
           partNo: product.Part_No.value,
           partName: product.Part_Name.value,
           in: inQuantity ? inQuantity.in : [],
+          totalIn: inQuantity ? inQuantity.in.map((item) => item.in).reduce((acc, curr) => acc + curr, 0) : 0,
           // description: product.Description.value,
           // qtyReceived,
           // qtyOk,
@@ -176,7 +166,7 @@ export const useReportStore = defineStore({
                 in: [],
               });
 
-            item.in.push({[o.day]: o.in});
+            item.in.push({day: o.day, in: o.in});
             delete item.day;
 
             return r.set(key, item);

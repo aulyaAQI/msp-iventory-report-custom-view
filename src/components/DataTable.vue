@@ -31,18 +31,23 @@ filterStore.$subscribe(async (mutation, state) => {
 });
 
 function obtainIn(data, number) {
-  console.log({data, number});
+  const findDay = data.in.find(dataIn => {
 
-  const in = 
+    console.log({dataIn});
 
-  return data;
+    return dataIn.day === number.toString();
+  });
+
+  if (findDay) return findDay.in;
+
+  return '-';
 }
 </script>
 
 <template>
   <div class="border rounded p-3 bg-white table-responsive">
     <div v-if="reportData.length">
-      <table class="table table-striped">
+      <table class="table table-striped table-bordered">
         <thead>
           <tr>
             <th
@@ -58,7 +63,7 @@ function obtainIn(data, number) {
             <th>Beginning Stock</th>
             <th>In/Out</th>
             <th
-              v-for="(n, idx) in 31"
+              v-for="(n) in 31"
               :key="n"
             >
               {{ n }}
@@ -85,13 +90,13 @@ function obtainIn(data, number) {
               </td>
               <td>In</td>
               <td
-                v-for="(n, idx) in 31"
+                v-for="(n) in 31"
                 :key="n"
               >
                 {{ obtainIn(data, n) }}
               </td>
               <td rowspan="2">
-                0
+                {{ data.totalIn }}
               </td>
               <td rowspan="2">
                 0
@@ -103,7 +108,7 @@ function obtainIn(data, number) {
             <tr class="table-hover">
               <td>Out</td>
               <td
-                v-for="(n, idx) in 31"
+                v-for="(n) in 31"
                 :key="n"
               >
                 {{ '-' }}
